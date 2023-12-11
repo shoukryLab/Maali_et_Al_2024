@@ -33,23 +33,16 @@ dgeWay <- function(count_mat){
 #####
 
 #load data:
-setwd("C:/Users/Omar/Desktop/counts") #Change to directory w files
+setwd("C:/Users/Omar/Desktop/BIOINFORMATIC/NaglaaII/Neutrophils_BulkRNASeq/") #Change to directory w files
 
-data <- fread("countsAll.txt", sep = " ",
-              col.names = T)
+data <- fread("countsAll.txt")
 
+row.names(data) <- data$Ensembl
+data <- data[,-1]
 #remove genes with expression == 0 accross all samples::
-which(rowSums(data[,-1]) == 0) -> zeroExpress
+which(rowSums(data) == 0) -> zeroExpress
 
 data <- data[-zeroExpress,]
-
-#now begin with normalization and everything else::
-colnames(data) <- c("Ensembl", "24-9",
-                    "L6", "L9","L10","S1B","S1C","72-6","72-7",
-                    "24-6","24-7","24-8", "S3D")
-
-rownames(data) <- data$Ensembl
-data <- data[,-1]
 
 #remove also last 4 rows: __ambiguous, etc...
 data <- data[-c(nrow(data):(nrow(data)-3)),]
@@ -75,16 +68,6 @@ designo <- model.matrix(~ 0 + tissue_time, data = data_dge$samples)
 
 #Create voom object to normalize and visualize PCA::
 voomo <- voom(data_dge, design = designo, plot = T)
-
-# fit <- lmFit(voomo, designo)
-# fit <- eBayes(fit)
-# topTable(fit, adjust.method = "BY", p.value = 0.05, 
-#          number = nrow(data)) -> topi_005
-# 
-# topi_005$gene <- topi_005 %>% rownames()
-#get names of genes::
-geneNames <- fread("counts_merged_NS_l6.bam_sam.txt") %>% 
-  dplyr::select(V1, V2)
 
 #Visualize with PCA::
 pcaObj <- prcomp(t(voomo$E), scale. = TRUE, center = TRUE)
