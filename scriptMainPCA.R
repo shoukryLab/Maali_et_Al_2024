@@ -1,3 +1,4 @@
+#This script will show the main data processing steps used to process the data + create the VOOM object, and generate the PCA
 library(dplyr)
 library(magrittr)
 library(limma)
