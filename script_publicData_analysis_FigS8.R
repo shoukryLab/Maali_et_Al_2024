@@ -16,14 +16,11 @@ library(DOSE)
 library(VennDiagram)
 library(ggbiplot)
 
-#load data:
-setwd("C:/Users/Omar/Desktop/BIOINFORMATIC/NaglaaII/Neutrophils_BulkRNASeq/")
-
 #load files and cbind::
 data <- fread("countsAll.txt")
 
 #integrate the public GSE data::
-GSE <- fread("C:/Users/Omar/Downloads/GSE180824_Mackey_Neutrophil_maturity_raw_counts.csv") 
+GSE <- fread("GSE180824_Mackey_Neutrophil_maturity_raw_counts.csv") 
 
 #Select only samples of interest - Liver Neutrophils + Spleen for balanced design::
 cols_GSE <- colnames(GSE) %>% 
@@ -53,7 +50,7 @@ colnames(data) <- c("Gene", "24-9",
 #remove last 4 rows from data::
 data <- data[-c(nrow(data):(nrow(data)-3)),]
 
-#inner join the two datasets, use genenames for volcano::
+#convert Ensembl -> gene IDs using this file::
 forConversion <- fread("forConversion.txt")
 
 #identify dupGenes for exclusion from merge. Will convert to Gene names 
