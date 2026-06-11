@@ -1,3 +1,5 @@
+# Repository for Maali et. Al 2024 paper in Hepatology communications
+
 This repository contains scripts and data to reproduce the analysis conducted in the paper titled:
 Two transcriptionally and functionally distinct waves of pro-inflammatory versus pro-repair neutrophils during acute liver injury
 by Maali et Al. 
